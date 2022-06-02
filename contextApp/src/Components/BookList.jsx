@@ -1,6 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
+import { BookContext } from "../Context/BookContext";
 import { ThemeContext } from "../Context/ThemeContext";
 //This method can be used in a functional component and multiple consumers can be consumed in a single file.
 // class BookList extends Component {
@@ -45,6 +46,7 @@ import { ThemeContext } from "../Context/ThemeContext";
 const BookList = () => {
 	const { isLightTheme, light, dark } = useContext(ThemeContext);
 	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
+	const { books } = useContext(BookContext);
 	const theme = isLightTheme ? light : dark;
 
 	return (
@@ -56,9 +58,10 @@ const BookList = () => {
 				{isAuthenticated ? "LoggedIn" : "Logged Out"}
 			</button>
 			<ul>
-				<li style={{ background: theme.ui }}>the way of kings</li>
-				<li style={{ background: theme.ui }}>the name of the wind</li>
-				<li style={{ background: theme.ui }}>the final empire</li>
+				{books.map(book => {
+					return <li style={{ background: theme.ui }} key={book.id}>{book.title}</li>
+					
+				})}
 			</ul>
 		</div>
 	);
